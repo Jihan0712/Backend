@@ -26,7 +26,7 @@ router.post('/', createSmoke)
 router.delete('/:id', deleteSmoke)
 
 // UPDATE a smoke
-router.patch('/:id', updateSmoke)
+router.put('/:id', updateSmoke)
 
 
 module.exports = router
