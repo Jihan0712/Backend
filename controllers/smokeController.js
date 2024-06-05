@@ -1,27 +1,38 @@
 const SmokeTest = require('../models/smokeModel');
+const Vehicle = require('../models/vehicleModel'); // Ensure this model is imported if needed
+const User = require('../models/userModel');
 const mongoose = require('mongoose');
 const generateDocument = require('../utils/generateDocument');
-const Vehicle = require('../models/vehicleModel');
 
 //print
 const printSmoke = async (req, res) => {
   const { id } = req.params;
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'Invalid ID' });
+  }
+
   try {
-    const smoke = await SmokeTest.findById(id);
-    if (!smoke) {
-      return res.status(404).json({ error: 'Smoke test not found' });
+    const smoke = await SmokeTest.findById(id).populate('owner'); // Assuming vehicleId is a reference in SmokeTest
+    const vehicle = await Vehicle.findById(smoke.vehicleId);
+    const user = await User.findById(smoke.userId);
+
+    if (!smoke || !vehicle || !user) {
+      return res.status(404).json({ error: 'Data not found' });
     }
 
-    const pdfBuffer = await generateDocument(smoke);
-    res.set({
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="smoke_test.pdf"',
-    });
-    res.send(pdfBuffer);
+    const data = {
+      smoke,
+      vehicle,
+      user,
+    };
+
+    const html = await generateDocument(data);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(html);
   } catch (error) {
     console.error('Error generating document:', error);
-    res.status(500).json({ error: 'Error generating document' });
+    res.status(500).json({ error: 'Server error' });
   }
 };
 

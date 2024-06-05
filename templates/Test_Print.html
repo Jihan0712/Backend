@@ -9,39 +9,54 @@
   <div class="section">
     <table>
       <tr>
-        <td><strong>MV OWNER:</strong></td>
-        <td></td>
+        <td><strong>MV OWNER:</strong> <%= user.name %></td>
       </tr>
     </table>
   </div>
   <div class="section">
     <table>
       <tr>
-        <td><strong>PLATE NO:</strong> {{plateNo}}</td>
-        <td><strong>MV TYPE:</strong> {{mvType}}</td>
+        <td><strong>PLATE NO:</strong> <%= vehicle.plateNo %></td>
+        <td><strong>MV TYPE:</strong> <%= vehicle.mvType %></td>
       </tr>
       <tr>
-        <td><strong>ENGINE NO:</strong> {{engineNo}}</td>
-        <td><strong>COLOR:</strong> {{color}}</td>
+        <td><strong>ENGINE NO:</strong> <%= vehicle.engineNo %></td>
+        <td><strong>COLOR:</strong> <%= vehicle.color %></td>
       </tr>
       <tr>
-        <td><strong>CHASSIS NO:</strong> {{chassisNo}}</td>
-        <td><strong>CLASSIFICATION:</strong> {{classification}}</td>
+        <td><strong>CHASSIS NO:</strong> <%= vehicle.chassisNo %></td>
+        <td><strong>CLASSIFICATION:</strong> <%= vehicle.classification %></td>
       </tr>
       <tr>
-        <td><strong>YEAR MODEL:</strong> {{yearModel}}</td>
-        <td><strong>MAKE/SERIES:</strong> {{makeSeries}}</td>
+        <td><strong>YEAR MODEL:</strong> <%= vehicle.yearModel %></td>
+        <td><strong>MAKE/SERIES:</strong> <%= vehicle.makeSeries %></td>
       </tr>
       <tr>
-        <td colspan="2"><strong>DATE/TIME TESTED:</strong> </td>
+        <td colspan="2"><strong>DATE/TIME TESTED:</strong> <%= smoke.createdAt %></td>
       </tr>
     </table>
   </div>
   <div class="section">
     <table>
       <tr>
-        <td><strong>OPACITY:</strong> {{opacity}}</td>
-        <td><strong>RESULT:</strong> {{smoke_result}}</td>
+        <td><strong>GIVEN THIS:</strong> </td>
+        <td><strong>P.E.T.C. & I.T. PROVIDER:</strong> </td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>VALID UNTIL:</strong> </td>
+      </tr>
+    </table>
+  </div>
+  <div class="section">
+    <table>
+      <tr>
+        <td><strong>TESTING RESULT</strong></td>
+      </tr>
+      <tr>
+        <td><strong>OPACITY:</strong> <%= smoke.opacity %></td>
+      </tr>
+      <tr>
+        <td><strong>RESULT:</strong> <%= smoke.smoke_result %></td>
       </tr>
     </table>
   </div>
