@@ -1,14 +1,11 @@
-const PizZip = require('pizzip');
-const Docxtemplater = require('docxtemplater');
 const fs = require('fs');
 const path = require('path');
 const SmokeTest = require('../models/smokeModel');
 
 const generateDocument = async (smokeId) => {
   try {
-    const content = fs.readFileSync(path.resolve(__dirname, '../templates/Test_Print.docx'), 'binary');
-    const zip = new PizZip(content);
-    const doc = new Docxtemplater(zip);
+    const templatePath = path.resolve(__dirname, '../templates/template.html');
+    const templateContent = fs.readFileSync(templatePath, 'utf8');
 
     const smoke = await SmokeTest.findById(smokeId);
     if (!smoke) {
@@ -33,11 +30,14 @@ const generateDocument = async (smokeId) => {
       result: smoke.smoke_result
     };
 
-    doc.setData(data);
-    doc.render();
-    const buf = doc.getZip().generate({ type: 'nodebuffer' });
-    const outputPath = path.resolve(__dirname, '../output', `Test_Print_${smokeId}.docx`);
-    fs.writeFileSync(outputPath, buf);
+    let documentContent = templateContent;
+    for (const key in data) {
+      const value = data[key];
+      documentContent = documentContent.replace(new RegExp(`{{${key}}}`, 'g'), value);
+    }
+
+    const outputPath = path.resolve(__dirname, '../output', `Test_Print_${smokeId}.html`);
+    fs.writeFileSync(outputPath, documentContent, 'utf8');
     return outputPath;
   } catch (error) {
     console.error('Error generating document:', error);

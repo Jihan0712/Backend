@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smoke Test Report</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            font-size: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 5pt;
+            vertical-align: top;
+        }
+        .section-title {
+            background: rgb(67, 67, 67);
+            color: white;
+            text-align: center;
+            padding: 5pt;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <p><strong>MV OWNER:</strong> {{mv_owner}}</p>
+    </div>
+
+    <div class="section">
+        <p class="section-title"><strong>VEHICLE DETAILS</strong></p>
+        <table>
+            <tr>
+                <td><strong>PLATE NO:</strong> {{plate_no}}</td>
+                <td><strong>MV TYPE:</strong> {{mv_type}}</td>
+            </tr>
+            <tr>
+                <td><strong>ENGINE NO:</strong> {{engine_no}}</td>
+                <td><strong>COLOR:</strong> {{color}}</td>
+            </tr>
+            <tr>
+                <td><strong>CHASSIS NO:</strong> {{chassis_no}}</td>
+                <td><strong>CLASSIFICATION:</strong> {{classification}}</td>
+            </tr>
+            <tr>
+                <td><strong>YEAR MODEL:</strong> {{year_model}}</td>
+                <td><strong>MAKE/SERIES:</strong> {{make_series}}</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>DATE/TIME TESTED:</strong> {{date_time_tested}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <table>
+            <tr>
+                <td><strong>GIVEN THIS:</strong> </td>
+                <td><strong>P.E.T.C. & I.T. PROVIDER:</strong> </td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>VALID UNTIL:</strong> </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <p class="section-title"><strong>TESTING RESULT</strong></p>
+        <table>
+            <tr>
+                <td><strong>OPACITY:</strong> {{opacity}}</td>
+            </tr>
+            <tr>
+                <td><strong>RESULT:</strong> {{result}}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
