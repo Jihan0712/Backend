@@ -1,4 +1,5 @@
 const SmokeTest = require('../models/smokeModel')
+const Vehicle = require('../models/vehicleModel')
 const User = require('../models/userModel')
 
 const getStatistics = async (req, res) => {
@@ -6,13 +7,17 @@ const getStatistics = async (req, res) => {
     const totalUsers = await User.countDocuments()
     const totalPassed = await SmokeTest.countDocuments({ smoke_result: 'Passed' })
     const totalFailed = await SmokeTest.countDocuments({ smoke_result: 'Failed' })
-    const opacityData = await SmokeTest.find({}, 'opacity').lean()
+
+    // Aggregate the mvType data
+    const mvTypeData = await Vehicle.aggregate([
+      { $group: { _id: "$mvType", count: { $sum: 1 } } }
+    ])
 
     res.status(200).json({
       totalUsers,
       totalPassed,
       totalFailed,
-      opacityData
+      mvTypeData
     })
   } catch (error) {
     res.status(500).json({ message: 'Server error' })
