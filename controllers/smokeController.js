@@ -9,30 +9,120 @@ const printSmoke = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'Invalid ID' });
+    return res.status(404).json({ error: 'No such data' });
   }
 
   try {
-    const smoke = await SmokeTest.findById(id).populate('owner'); // Assuming vehicleId is a reference in SmokeTest
-    const vehicle = await Vehicle.findById(smoke.owner);
-    const user = await User.findById(smoke._id);
+    const smoke = await SmokeTest.findById(id).populate('vehicle');
 
-    if (!smoke || !vehicle || !user) {
-      return res.status(404).json({ error: 'Data not found' });
+    if (!smoke) {
+      return res.status(404).json({ error: 'No such data' });
     }
 
-    const data = {
-      smoke,
-      vehicle,
-      user,
-    };
+    const htmlTemplate = `
+      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:9.0pt;margin-left:0cm;'>&nbsp;</p>
+      <table style="width: 4.7e+2pt;border-collapse:collapse;border:none;">
+          <tbody>
+              <tr>
+                  <td style="width: 468pt;border: 1pt solid black;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>MV OWNER:</strong> ${smoke.ownerName}</p>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:9.0pt;margin-left:0cm;'>&nbsp;</p>
+      <table style="width: 4.7e+2pt;border-collapse:collapse;border:none;">
+          <tbody>
+              <tr>
+                  <td colspan="2" style="width: 468pt;border: 1pt solid black;background: rgb(67, 67, 67);padding: 5pt;height: 21pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;text-align:center;border:none;'><strong><span style="color:white;">VEHICLE DETAILS</span></strong></p>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>PLATE NO:</strong> ${smoke.vehicle.plateNo}</p>
+                  </td>
+                  <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>MV TYPE:</strong> ${smoke.vehicle.mvType}</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>ENGINE NO:</strong> ${smoke.vehicle.engineNo}</p>
+                  </td>
+                  <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>COLOR:</strong> ${smoke.vehicle.color}</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>CHASSIS NO:</strong> ${smoke.vehicle.chassisNo}</p>
+                  </td>
+                  <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>CLASSIFICATION:</strong> ${smoke.vehicle.classification}</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>YEAR MODEL:</strong> ${smoke.vehicle.yearModel}</p>
+                  </td>
+                  <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>MAKE/SERIES:</strong> ${smoke.vehicle.makeSeries}</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="2" style="width: 468pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;height: 21pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>DATE/TIME TESTED:</strong> ${smoke.testedDate}</p>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:9.0pt;margin-left:0cm;'>&nbsp;</p>
+      <table style="width: 4.7e+2pt;border-collapse:collapse;border:none;">
+          <tbody>
+              <tr>
+                  <td style="width: 234pt;border: 1pt solid black;padding: 5pt;height: 21pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>GIVEN THIS:</strong> ${smoke.givenDate}</p>
+                  </td>
+                  <td rowspan="2" style="width: 234pt;border-top: 1pt solid black;border-right: 1pt solid black;border-bottom: 1pt solid black;border-image: initial;border-left: none;padding: 5pt;height: 21pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:  9.0pt;margin-left:0cm;'><strong>P.E.T.C. & I.T. PROVIDER:</strong> ${smoke.provider}</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;height: 21pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>VALID UNTIL:</strong> ${smoke.validUntil}</p>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:9.0pt;margin-left:0cm;'>&nbsp;</p>
+      <table style="width: 4.7e+2pt;border-collapse:collapse;border:none;">
+          <tbody>
+              <tr>
+                  <td style="width: 468pt;border: 1pt solid black;background: rgb(67, 67, 67);padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;text-align:center;border:none;'><strong><span style="color:white;">TESTING RESULT</span></strong></p>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 468pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>OPACITY:</strong> ${smoke.opacity}</p>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 468pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>RESULT:</strong> ${smoke.smoke_result}</p>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:9.0pt;margin-left:0cm;'>&nbsp;</p>
+      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;'>&nbsp;</p>
+    `;
 
-    const html = await generateDocument(data);
-    res.setHeader('Content-Type', 'application/pdf');
-    res.send(html);
+    generateDocument(htmlTemplate, res);
   } catch (error) {
     console.error('Error generating document:', error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Error generating document' });
   }
 };
 
