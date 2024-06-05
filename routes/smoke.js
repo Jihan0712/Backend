@@ -5,7 +5,8 @@ const {
   getSmoke,
   deleteSmoke,
   updateSmoke,
-  printSmoke
+  printSmoke,
+  getVehicleDetails // Add this line
 } = require('../controllers/smokeController');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -31,5 +32,8 @@ router.put('/:id', updateSmoke);
 
 // PRINT a smoke document
 router.get('/print/:id', printSmoke);
+
+// Add route to fetch vehicle details
+router.get('/vehicle/:id', getVehicleDetails);
 
 module.exports = router;

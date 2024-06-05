@@ -1,48 +1,44 @@
 const fs = require('fs');
 const path = require('path');
-const SmokeTest = require('../models/smokeModel');
+const { JSDOM } = require('jsdom');
+const pdf = require('html-pdf');
+const Vehicle = require('../models/vehicleModel'); // Import Vehicle model
 
-const generateDocument = async (smokeId) => {
-  try {
-    const templatePath = path.resolve(__dirname, '../templates/template.html');
-    const templateContent = fs.readFileSync(templatePath, 'utf8');
+const generateDocument = async (smoke) => {
+  const vehicle = await Vehicle.findById(smoke.vehicleId); // Fetch vehicle data based on smoke
 
-    const smoke = await SmokeTest.findById(smokeId);
-    if (!smoke) {
-      throw new Error(`No smoke data found with ID: ${smokeId}`);
-    }
+  const templatePath = path.join(__dirname, '..', 'templates', 'Test_Print.html');
+  const template = fs.readFileSync(templatePath, 'utf-8');
 
-    const data = {
-      mv_owner: smoke.owner || '',
-      plate_no: smoke.plateNo || '',
-      mv_type: smoke.mvType || '',
-      engine_no: smoke.engineNo || '',
-      color: smoke.color || '',
-      chassis_no: smoke.chassisNo || '',
-      classification: smoke.classification || '',
-      year_model: smoke.yearModel || '',
-      make_series: smoke.makeSeries || '',
-      date_time_tested: smoke.dateTimeTested || '',
-      given_this: smoke.givenThis || '',
-      petc_it_provider: smoke.petcItProvider || '',
-      valid_until: smoke.validUntil || '',
-      opacity: smoke.opacity,
-      result: smoke.smoke_result
-    };
+  const dom = new JSDOM(template);
+  const document = dom.window.document;
 
-    let documentContent = templateContent;
-    for (const key in data) {
-      const value = data[key];
-      documentContent = documentContent.replace(new RegExp(`{{${key}}}`, 'g'), value);
-    }
+  document.querySelector('#opacity').textContent = smoke.opacity;
+  document.querySelector('#smoke_result').textContent = smoke.smoke_result;
 
-    const outputPath = path.resolve(__dirname, '../output', `Test_Print_${smokeId}.html`);
-    fs.writeFileSync(outputPath, documentContent, 'utf8');
-    return outputPath;
-  } catch (error) {
-    console.error('Error generating document:', error);
-    throw error;
+  // Populate vehicle details
+  if (vehicle) {
+    document.querySelector('#plateNo').textContent = vehicle.plateNo;
+    document.querySelector('#mvType').textContent = vehicle.mvType;
+    document.querySelector('#engineNo').textContent = vehicle.engineNo;
+    document.querySelector('#color').textContent = vehicle.color;
+    document.querySelector('#classification').textContent = vehicle.classification;
+    document.querySelector('#yearModel').textContent = vehicle.yearModel;
+    document.querySelector('#makeSeries').textContent = vehicle.makeSeries;
+    document.querySelector('#dateTimeTested').textContent = vehicle.dateTimeTested;
   }
+
+  const pdfOptions = { format: 'A4' };
+  const html = dom.serialize();
+
+  return new Promise((resolve, reject) => {
+    pdf.create(html, pdfOptions).toStream((err, stream) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(stream);
+    });
+  });
 };
 
 module.exports = generateDocument;
