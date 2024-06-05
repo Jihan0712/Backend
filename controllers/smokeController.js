@@ -1,6 +1,6 @@
 const SmokeTest = require('../models/smokeModel')
 const mongoose = require('mongoose')
-const generateDocument = require('../utils/generateDocument')
+const generateDocument = require('../utils/generateDocument');
 
 //print
 const printSmoke = async (req, res) => {
@@ -10,19 +10,17 @@ const printSmoke = async (req, res) => {
     return res.status(404).json({ error: 'No such data' });
   }
 
-  const smoke = await SmokeTest.findById(id);
-
-  if (!smoke) {
-    return res.status(404).json({ error: 'No such data' });
-  }
-
   try {
-    const buffer = await generateDocument(smoke);
-    res.setHeader('Content-Disposition', 'attachment; filename=SmokeTest.docx');
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    res.send(buffer);
+    const filePath = await generateDocument(id);
+    res.download(filePath, (err) => {
+      if (err) {
+        console.error('Error sending file:', err);
+        res.status(500).json({ error: 'Error sending file' });
+      }
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to generate document' });
+    console.error('Error generating document:', error);
+    res.status(500).json({ error: 'Error generating document' });
   }
 };
 

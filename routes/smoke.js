@@ -30,6 +30,6 @@ router.delete('/:id', deleteSmoke);
 router.put('/:id', updateSmoke);
 
 // PRINT a smoke
-router.get('/print/:id', printSmoke);  // Add this line
+router.get('/print/:id', printSmoke);
 
 module.exports = router;

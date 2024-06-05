@@ -1,51 +1,56 @@
-// utils/generateDocument.js
-const fs = require('fs');
-const path = require('path');
 const PizZip = require('pizzip');
 const Docxtemplater = require('docxtemplater');
+const fs = require('fs');
+const path = require('path');
+const SmokeTest = require('../models/smokeModel');
 
-function generateDocument(smokeData) {
-  // Load the docx file as binary content
-  const content = fs.readFileSync(path.resolve(__dirname, '../templates/Test_Print.docx'), 'binary');
-
-  const zip = new PizZip(content);
-
-  const doc = new Docxtemplater(zip, {
-    paragraphLoop: true,
-    linebreaks: true,
-  });
-
-  // Set the template variables
-  doc.setData({
-    mvOwner: smokeData.owner,
-    plateNo: smokeData.plate_no,
-    mvType: smokeData.mvType,
-    engineNo: smokeData.engine_no,
-    color: smokeData.color,
-    chassisNo: smokeData.chassis_no,
-    classification: smokeData.classification,
-    yearModel: smokeData.year_model,
-    makeSeries: smokeData.make_series,
-    dateTimeTested: smokeData.date_time_tested,
-    givenThis: smokeData.given_this,
-    petcItProvider: smokeData.petc_it_provider,
-    validUntil: smokeData.valid_until,
-    opacity: smokeData.opacity,
-    result: smokeData.result,
-  });
-
+const generateDocument = async (smokeId) => {
   try {
-    // Render the document
+    // Load the docx file as binary content
+    const content = fs.readFileSync(path.resolve(__dirname, '../templates/Test_Print.docx'), 'binary');
+    const zip = new PizZip(content);
+    const doc = new Docxtemplater(zip);
+
+    // Fetch smoke data from the database
+    const smoke = await SmokeTest.findById(smokeId);
+
+    // Prepare the data to be injected into the template
+    const data = {
+      mv_owner: smoke.owner || '',
+      plate_no: smoke.plateNo || '',
+      mv_type: smoke.mvType || '',
+      engine_no: smoke.engineNo || '',
+      color: smoke.color || '',
+      chassis_no: smoke.chassisNo || '',
+      classification: smoke.classification || '',
+      year_model: smoke.yearModel || '',
+      make_series: smoke.makeSeries || '',
+      date_time_tested: smoke.dateTimeTested || '',
+      given_this: smoke.givenThis || '',
+      petc_it_provider: smoke.petcItProvider || '',
+      valid_until: smoke.validUntil || '',
+      opacity: smoke.opacity,
+      result: smoke.smoke_result
+    };
+
+    // Set the data into the document
+    doc.setData(data);
+
+    // Apply the data to the document
     doc.render();
+
+    // Generate the document buffer
+    const buf = doc.getZip().generate({ type: 'nodebuffer' });
+
+    // Save the document
+    const outputPath = path.resolve(__dirname, '../output', `Test_Print_${smokeId}.docx`);
+    fs.writeFileSync(outputPath, buf);
+
+    return outputPath;
   } catch (error) {
-    console.error(error);
+    console.error('Error generating document:', error);
     throw error;
   }
-
-  const buf = doc.getZip().generate({ type: 'nodebuffer' });
-
-  // Save the document
-  fs.writeFileSync(path.resolve(__dirname, '../public/output.docx'), buf);
-}
+};
 
 module.exports = generateDocument;
