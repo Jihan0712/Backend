@@ -1,7 +1,9 @@
+const express = require('express')
+const router = express.Router()
 const SmokeTest = require('../models/SmokeTest')
 const User = require('../models/User')
 
-const getStatistics = async (req, res) => {
+router.get('/statistics', async (req, res) => {
   try {
     const totalUsers = await User.countDocuments()
     const totalPassed = await SmokeTest.countDocuments({ smoke_result: 'Passed' })
@@ -17,8 +19,6 @@ const getStatistics = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Server error' })
   }
-}
+})
 
-module.exports = {
-  getStatistics
-}
+module.exports = router
