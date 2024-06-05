@@ -5,7 +5,7 @@ const {
   getSmoke,
   deleteSmoke,
   updateSmoke,
-  printSmoke // Ensure this is imported
+  printSmoke
 } = require('../controllers/smokeController');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -29,7 +29,7 @@ router.delete('/:id', deleteSmoke);
 // UPDATE a smoke
 router.put('/:id', updateSmoke);
 
-// PRINT a smoke document
-router.get('/print/:id', printSmoke); // Ensure this line is correct
+// Print a smoke
+router.get('/print/:id', printSmoke);
 
 module.exports = router;
