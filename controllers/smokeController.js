@@ -25,7 +25,7 @@ const printSmoke = async (req, res) => {
           <tbody>
               <tr>
                   <td style="width: 468pt;border: 1pt solid black;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>MV OWNER:</strong> ${smoke.ownerName}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>MV OWNER:</strong> </p>
                   </td>
               </tr>
           </tbody>
@@ -40,39 +40,39 @@ const printSmoke = async (req, res) => {
               </tr>
               <tr>
                   <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>PLATE NO:</strong> ${smoke.vehicle.plateNo}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>PLATE NO:</strong> </p>
                   </td>
                   <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>MV TYPE:</strong> ${smoke.vehicle.mvType}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>MV TYPE:</strong> </p>
                   </td>
               </tr>
               <tr>
                   <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>ENGINE NO:</strong> ${smoke.vehicle.engineNo}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>ENGINE NO:</strong> </p>
                   </td>
                   <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>COLOR:</strong> ${smoke.vehicle.color}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>COLOR:</strong> </p>
                   </td>
               </tr>
               <tr>
                   <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>CHASSIS NO:</strong> ${smoke.vehicle.chassisNo}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>CHASSIS NO:</strong> $</p>
                   </td>
                   <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>CLASSIFICATION:</strong> ${smoke.vehicle.classification}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>CLASSIFICATION:</strong> </p>
                   </td>
               </tr>
               <tr>
                   <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>YEAR MODEL:</strong> ${smoke.vehicle.yearModel}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>YEAR MODEL:</strong> </p>
                   </td>
                   <td style="width: 234pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;padding: 5pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>MAKE/SERIES:</strong> ${smoke.vehicle.makeSeries}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>MAKE/SERIES:</strong> </p>
                   </td>
               </tr>
               <tr>
                   <td colspan="2" style="width: 468pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;height: 21pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>DATE/TIME TESTED:</strong> ${smoke.testedDate}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;'><strong>DATE/TIME TESTED:</strong> </p>
                   </td>
               </tr>
           </tbody>
@@ -82,15 +82,15 @@ const printSmoke = async (req, res) => {
           <tbody>
               <tr>
                   <td style="width: 234pt;border: 1pt solid black;padding: 5pt;height: 21pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>GIVEN THIS:</strong> ${smoke.givenDate}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>GIVEN THIS:</strong> </p>
                   </td>
                   <td rowspan="2" style="width: 234pt;border-top: 1pt solid black;border-right: 1pt solid black;border-bottom: 1pt solid black;border-image: initial;border-left: none;padding: 5pt;height: 21pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:  9.0pt;margin-left:0cm;'><strong>P.E.T.C. & I.T. PROVIDER:</strong> ${smoke.provider}</p>
+                      <p style='margin:0cm;line-height:115%;font-size:15px;font-family:"Arial",sans-serif;margin-top:9.0pt;margin-right:0cm;margin-bottom:  9.0pt;margin-left:0cm;'><strong>P.E.T.C. & I.T. PROVIDER:</strong> </p>
                   </td>
               </tr>
               <tr>
                   <td style="width: 234pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;padding: 5pt;height: 21pt;vertical-align: top;">
-                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>VALID UNTIL:</strong> ${smoke.validUntil}</p>
+                      <p style='margin:0cm;line-height:normal;font-size:15px;font-family:"Arial",sans-serif;border:none;'><strong>VALID UNTIL:</strong> </p>
                   </td>
               </tr>
           </tbody>
