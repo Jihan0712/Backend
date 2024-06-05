@@ -29,7 +29,7 @@ router.delete('/:id', deleteSmoke);
 // UPDATE a smoke
 router.put('/:id', updateSmoke);
 
-// PRINT a smoke
+// PRINT a smoke document
 router.get('/print/:id', printSmoke);
 
 module.exports = router;

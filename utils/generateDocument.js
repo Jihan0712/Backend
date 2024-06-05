@@ -13,6 +13,9 @@ const generateDocument = async (smokeId) => {
 
     // Fetch smoke data from the database
     const smoke = await SmokeTest.findById(smokeId);
+    if (!smoke) {
+      throw new Error(`No smoke data found with ID: ${smokeId}`);
+    }
 
     // Prepare the data to be injected into the template
     const data = {
