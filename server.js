@@ -6,9 +6,10 @@ const cors = require('cors')
 const smokeRoutes = require('./routes/smoke')
 const userRoutes = require('./routes/user')
 const statisticsRoutes = require('./routes/statistics')
-
+const smokeRoutes = require('./routes/smokeRoutes');
 // express app
 const app = express()
+
 
 // middleware
 app.use(cors({
@@ -27,7 +28,7 @@ app.use((req, res, next) => {
 app.use('/api/smokes', smokeRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/statistics', statisticsRoutes) // Use statistics routes
-
+app.use('/api', smokeRoutes);
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

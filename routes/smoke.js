@@ -5,14 +5,13 @@ const {
   getSmoke,
   deleteSmoke,
   updateSmoke,
-  printSmoke,
-  getVehicleDetails // Add this line
+  printSmoke // Ensure this is imported
 } = require('../controllers/smokeController');
 const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
-// require auth for all smoke routes
+// require auth for all workout routes
 router.use(requireAuth);
 
 // GET all smokes
@@ -31,9 +30,6 @@ router.delete('/:id', deleteSmoke);
 router.put('/:id', updateSmoke);
 
 // PRINT a smoke document
-router.get('/print/:id', printSmoke);
-
-// Add route to fetch vehicle details
-router.get('/vehicle/:id', getVehicleDetails);
+router.get('/print/:id', printSmoke); // Ensure this line is correct
 
 module.exports = router;

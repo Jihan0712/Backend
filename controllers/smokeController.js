@@ -14,8 +14,8 @@ const printSmoke = async (req, res) => {
 
   try {
     const smoke = await SmokeTest.findById(id).populate('owner'); // Assuming vehicleId is a reference in SmokeTest
-    const vehicle = await Vehicle.findById(smoke.vehicleId);
-    const user = await User.findById(smoke.userId);
+    const vehicle = await Vehicle.findById(smoke.owner);
+    const user = await User.findById(smoke._id);
 
     if (!smoke || !vehicle || !user) {
       return res.status(404).json({ error: 'Data not found' });
