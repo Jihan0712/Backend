@@ -6,7 +6,7 @@ const getStatistics = async (req, res) => {
     const totalUsers = await User.countDocuments()
     const totalPassed = await SmokeTest.countDocuments({ smoke_result: 'Passed' })
     const totalFailed = await SmokeTest.countDocuments({ smoke_result: 'Failed' })
-    const opacityData = await SmokeTest.find({}, 'opacity createdAt').lean()
+    const opacityData = await SmokeTest.find({}, 'opacity').lean()
 
     res.status(200).json({
       totalUsers,

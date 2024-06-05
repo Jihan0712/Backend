@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const smokeRoutes = require('./routes/smoke')
 const userRoutes = require('./routes/user')
-const statisticsRoutes = require('./routes/statistics') // Import statistics route
+const statisticsRoutes = require('./routes/statistics')
 
 // express app
 const app = express()
