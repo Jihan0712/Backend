@@ -7,21 +7,18 @@ const Vehicle = require('../models/vehicleModel');
 const printSmoke = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'No such data' });
-  }
-
-  const smoke = await SmokeTest.findById(id);
-
-  if (!smoke) {
-    return res.status(404).json({ error: 'No such data' });
-  }
-
   try {
-    const stream = await generateDocument(smoke);
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=smoke_test.pdf');
-    stream.pipe(res);
+    const smoke = await SmokeTest.findById(id);
+    if (!smoke) {
+      return res.status(404).json({ error: 'Smoke test not found' });
+    }
+
+    const pdfBuffer = await generateDocument(smoke);
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment; filename="smoke_test.pdf"',
+    });
+    res.send(pdfBuffer);
   } catch (error) {
     console.error('Error generating document:', error);
     res.status(500).json({ error: 'Error generating document' });
@@ -129,6 +126,5 @@ module.exports = {
   getSmoke,
   deleteSmoke,
   updateSmoke,
-  printSmoke, // Ensure printSmoke is exported
-  getVehicleDetails // Export getVehicleDetails
+  printSmoke,
 };

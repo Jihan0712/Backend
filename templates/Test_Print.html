@@ -1,22 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Smoke Test Report</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smoke Test Report</title>
 </head>
 <body>
-    <div>
-        <h1>Smoke Test Report</h1>
-        <p><strong>Opacity:</strong> <span id="opacity"></span></p>
-        <p><strong>Result:</strong> <span id="smoke_result"></span></p>
-        <h2>Vehicle Details</h2>
-        <p><strong>Plate No:</strong> <span id="plateNo"></span></p>
-        <p><strong>MV Type:</strong> <span id="mvType"></span></p>
-        <p><strong>Engine No:</strong> <span id="engineNo"></span></p>
-        <p><strong>Color:</strong> <span id="color"></span></p>
-        <p><strong>Classification:</strong> <span id="classification"></span></p>
-        <p><strong>Year Model:</strong> <span id="yearModel"></span></p>
-        <p><strong>Make/Series:</strong> <span id="makeSeries"></span></p>
-        <p><strong>Date/Time Tested:</strong> <span id="dateTimeTested"></span></p>
-    </div>
+  <div class="section">
+    <table>
+      <tr>
+        <td><strong>MV OWNER:</strong></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+  <div class="section">
+    <table>
+      <tr>
+        <td><strong>PLATE NO:</strong> {{plateNo}}</td>
+        <td><strong>MV TYPE:</strong> {{mvType}}</td>
+      </tr>
+      <tr>
+        <td><strong>ENGINE NO:</strong> {{engineNo}}</td>
+        <td><strong>COLOR:</strong> {{color}}</td>
+      </tr>
+      <tr>
+        <td><strong>CHASSIS NO:</strong> {{chassisNo}}</td>
+        <td><strong>CLASSIFICATION:</strong> {{classification}}</td>
+      </tr>
+      <tr>
+        <td><strong>YEAR MODEL:</strong> {{yearModel}}</td>
+        <td><strong>MAKE/SERIES:</strong> {{makeSeries}}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>DATE/TIME TESTED:</strong> </td>
+      </tr>
+    </table>
+  </div>
+  <div class="section">
+    <table>
+      <tr>
+        <td><strong>OPACITY:</strong> {{opacity}}</td>
+        <td><strong>RESULT:</strong> {{smoke_result}}</td>
+      </tr>
+    </table>
+  </div>
 </body>
 </html>

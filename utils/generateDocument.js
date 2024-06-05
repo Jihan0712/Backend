@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { JSDOM } = require('jsdom');
-const pdf = require('html-pdf');
+const puppeteer = require('puppeteer');
 const Vehicle = require('../models/vehicleModel'); // Import Vehicle model
 
 const generateDocument = async (smoke) => {
@@ -10,35 +9,29 @@ const generateDocument = async (smoke) => {
   const templatePath = path.join(__dirname, '..', 'templates', 'Test_Print.html');
   const template = fs.readFileSync(templatePath, 'utf-8');
 
-  const dom = new JSDOM(template);
-  const document = dom.window.document;
+  // Replace placeholders in the HTML template
+  let html = template.replace('{{opacity}}', smoke.opacity);
+  html = html.replace('{{smoke_result}}', smoke.smoke_result);
 
-  document.querySelector('#opacity').textContent = smoke.opacity;
-  document.querySelector('#smoke_result').textContent = smoke.smoke_result;
-
-  // Populate vehicle details
   if (vehicle) {
-    document.querySelector('#plateNo').textContent = vehicle.plateNo;
-    document.querySelector('#mvType').textContent = vehicle.mvType;
-    document.querySelector('#engineNo').textContent = vehicle.engineNo;
-    document.querySelector('#color').textContent = vehicle.color;
-    document.querySelector('#classification').textContent = vehicle.classification;
-    document.querySelector('#yearModel').textContent = vehicle.yearModel;
-    document.querySelector('#makeSeries').textContent = vehicle.makeSeries;
-    document.querySelector('#dateTimeTested').textContent = vehicle.dateTimeTested;
+    html = html.replace('{{plateNo}}', vehicle.plateNo);
+    html = html.replace('{{mvType}}', vehicle.mvType);
+    html = html.replace('{{engineNo}}', vehicle.engineNo);
+    html = html.replace('{{color}}', vehicle.color);
+    html = html.replace('{{classification}}', vehicle.classification);
+    html = html.replace('{{yearModel}}', vehicle.yearModel);
+    html = html.replace('{{makeSeries}}', vehicle.makeSeries);
+    html = html.replace('{{dateTimeTested}}', vehicle.dateTimeTested);
   }
 
-  const pdfOptions = { format: 'A4' };
-  const html = dom.serialize();
+  // Generate PDF using Puppeteer
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.setContent(html);
+  const pdfBuffer = await page.pdf({ format: 'A4' });
+  await browser.close();
 
-  return new Promise((resolve, reject) => {
-    pdf.create(html, pdfOptions).toStream((err, stream) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(stream);
-    });
-  });
+  return pdfBuffer;
 };
 
 module.exports = generateDocument;
