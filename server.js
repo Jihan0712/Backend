@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors') // Import cors package
 const smokeRoutes = require('./routes/smoke')
 const userRoutes = require('./routes/user')
 
@@ -9,6 +10,11 @@ const userRoutes = require('./routes/user')
 const app = express()
 
 // middleware
+app.use(cors({
+  origin: 'https://emtst.netlify.app', // Replace with your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+}))
 app.use(express.json())
 
 app.use((req, res, next) => {
