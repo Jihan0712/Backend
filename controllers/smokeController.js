@@ -1,5 +1,31 @@
 const SmokeTest = require('../models/smokeModel')
 const mongoose = require('mongoose')
+const generateDocument = require('../utils/generateDocument')
+
+//print
+const printSmoke = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'No such data' });
+  }
+
+  const smoke = await SmokeTest.findById(id);
+
+  if (!smoke) {
+    return res.status(404).json({ error: 'No such data' });
+  }
+
+  try {
+    const buffer = await generateDocument(smoke);
+    res.setHeader('Content-Disposition', 'attachment; filename=SmokeTest.docx');
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.send(buffer);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to generate document' });
+  }
+};
+
 
 // get all smokes
 const getSmokes = async (req, res) => {
@@ -82,5 +108,6 @@ module.exports = {
   getSmokes,
   getSmoke,
   deleteSmoke,
-  updateSmoke
+  updateSmoke,
+  printSmoke
 }
