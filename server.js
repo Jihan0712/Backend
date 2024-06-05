@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors') // Import cors package
+const cors = require('cors')
 const smokeRoutes = require('./routes/smoke')
 const userRoutes = require('./routes/user')
 const statisticsRoutes = require('./routes/statistics') // Import statistics route

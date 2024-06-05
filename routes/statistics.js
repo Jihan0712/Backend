@@ -5,6 +5,6 @@ const requireAuth = require('../middleware/requireAuth')
 
 router.use(requireAuth)
 
-router.get('/statistics', getStatistics)
+router.get('/', getStatistics)
 
 module.exports = router
