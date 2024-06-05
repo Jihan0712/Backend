@@ -1,16 +1,14 @@
-const express = require('express')
-const router = express.Router()
-const SmokeTest = require('../models/SmokeTest')
-const User = require('../models/User')
+const SmokeTest = require('../models/smokeModel')
+const User = require('../models/userModel')
 
-router.get('/statistics', async (req, res) => {
+const getStatistics = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments()
     const totalPassed = await SmokeTest.countDocuments({ smoke_result: 'Passed' })
     const totalFailed = await SmokeTest.countDocuments({ smoke_result: 'Failed' })
     const opacityData = await SmokeTest.find({}, 'opacity createdAt').lean()
 
-    res.json({
+    res.status(200).json({
       totalUsers,
       totalPassed,
       totalFailed,
@@ -19,6 +17,8 @@ router.get('/statistics', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Server error' })
   }
-})
+}
 
-module.exports = router
+module.exports = {
+  getStatistics
+}

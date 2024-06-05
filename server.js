@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors') // Import cors package
 const smokeRoutes = require('./routes/smoke')
 const userRoutes = require('./routes/user')
+const statisticsRoutes = require('./routes/statistics') // Import statistics route
 
 // express app
 const app = express()
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 // routes
 app.use('/api/smokes', smokeRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/statistics', statisticsRoutes) // Use statistics routes
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
