@@ -16,6 +16,7 @@
     "docxtemplater": "^3.47.4",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "jsdom": "^24.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.12.9",
     "pizzip": "^3.1.7",
